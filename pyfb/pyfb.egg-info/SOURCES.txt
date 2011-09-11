@@ -1,7 +1,0 @@
-README.txt
-setup.py
-src/pyfb.egg-info/PKG-INFO
-src/pyfb.egg-info/SOURCES.txt
-src/pyfb.egg-info/dependency_links.txt
-src/pyfb.egg-info/requires.txt
-src/pyfb.egg-info/top_level.txt
