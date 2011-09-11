@@ -1,0 +1,11 @@
+Metadata-Version: 1.0
+Name: pyfb
+Version: 0.3.1
+Summary: A Python Interface to the Facebook Graph API
+Home-page: http://code.google.com/p/pyfb/
+Author: Juan Manuel García
+Author-email: jmg.utn@gmail.com
+License: GPL v3
+Description: UNKNOWN
+Keywords: Facebook Graph API Wrapper Python
+Platform: UNKNOWN
