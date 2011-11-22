@@ -57,6 +57,8 @@ print "-" * 40
 
 -----------------------------------------------------------------
 
+It's easy to integrate pyfb with Django. Just see the following example:
+
 ### settings.py
 
 ```python
