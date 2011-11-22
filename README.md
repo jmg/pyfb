@@ -53,7 +53,7 @@ print "-" * 40
 
 ```
 
-Django Facebook Integration Using Pyfb
+## Django Facebook Integration Using Pyfb
 
 -----------------------------------------------------------------
 
