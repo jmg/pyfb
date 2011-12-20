@@ -4,6 +4,7 @@
 
 import urllib
 import auth
+from urlparse import parse_qsl
 from utils import Json2ObjectsFactory
 
 class FacebookClient(object):
@@ -33,6 +34,7 @@ class FacebookClient(object):
         self.access_token = access_token    
         self.raw_data = raw_data
         self.permissions = self.DEFAULT_SCOPE
+        self.expires = None
         
     def _make_request(self, url, **data):
         """
@@ -129,10 +131,10 @@ class FacebookClient(object):
             ex = self.factory.make_object('Error', data)
             raise PyfbException(ex.error.message)
         
-        token = data.split("=")[1]
-        
-        self.access_token = token
-        return token        
+        data = dict(parse_qsl(data))
+        self.access_token = data.get('access_token')
+        self.expires = data.get('expires')
+        return self.access_token
         
     def get_dialog_url(self, redirect_uri):
         
