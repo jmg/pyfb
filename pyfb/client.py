@@ -1,5 +1,5 @@
-"""    
-    The implementation of the Facebook Client 
+"""
+    The implementation of the Facebook Client
 """
 
 import urllib
@@ -11,31 +11,31 @@ class FacebookClient(object):
     """
         This class implements the interface to the Facebook Graph API
     """
-    
+
     FACEBOOK_URL = "https://www.facebook.com/"
     GRAPH_URL = "https://graph.facebook.com/"
     API_URL = "https://api.facebook.com/"
-    
+
     BASE_AUTH_URL = "%soauth/authorize?" % GRAPH_URL
     DIALOG_BASE_URL = "%sdialog/feed?" % FACEBOOK_URL
     FBQL_BASE_URL = "%smethod/fql.query?" % API_URL
     BASE_TOKEN_URL = "%soauth/access_token?" % GRAPH_URL
-    
+
     DEFAULT_REDIRECT_URI = "http://www.facebook.com/connect/login_success.html"
     DEFAULT_SCOPE = auth.ALL_PERMISSIONS
     DEFAULT_DIALOG_URI = "http://www.example.com/response/"
- 
+
      #A factory to make objects from a json
-    factory = Json2ObjectsFactory()       
+    factory = Json2ObjectsFactory()
 
     def __init__(self, app_id, access_token=None, raw_data=None):
 
         self.app_id = app_id
-        self.access_token = access_token    
+        self.access_token = access_token
         self.raw_data = raw_data
         self.permissions = self.DEFAULT_SCOPE
         self.expires = None
-        
+
     def _make_request(self, url, **data):
         """
             Makes a simple request. If not data is a GET else is a POST.
@@ -43,7 +43,7 @@ class FacebookClient(object):
         if not data:
             data = None
         return urllib.urlopen(url, data).read()
-    
+
     def _make_auth_request(self, path, **data):
         """
             Makes a request to the facebook Graph API.
@@ -68,38 +68,38 @@ class FacebookClient(object):
         if not self.raw_data:
             return self.factory.make_object(name, data)
         return self.factory.loads(data)
-    
+
     def _get_url_path(self, dic):
-    
+
         return urllib.urlencode(dic)
-    
+
     def _get_auth_url(self, params, redirect_uri):
         """
             Returns the authentication url
         """
         if redirect_uri is None:
             redirect_uri = self.DEFAULT_REDIRECT_URI
-        params['redirect_uri'] = redirect_uri        
-        
+        params['redirect_uri'] = redirect_uri
+
         url_path = self._get_url_path(params)
         url = "%s%s" % (self.BASE_AUTH_URL, url_path)
         return url
-        
+
     def _get_permissions(self):
-        
-        return ",".join(self.permissions)        
-    
+
+        return ",".join(self.permissions)
+
     def get_auth_token_url(self, redirect_uri):
         """
             Returns the authentication token url
-        """ 
+        """
         params = {
             "client_id": self.app_id,
             "type": "user_agent",
             "scope": self._get_permissions(),
         }
         return self._get_auth_url(params, redirect_uri)
-        
+
     def get_auth_code_url(self, redirect_uri):
         """
             Returns the url to get a authentication code
@@ -109,14 +109,14 @@ class FacebookClient(object):
             "scope": self._get_permissions(),
         }
         return self._get_auth_url(params, redirect_uri)
-        
+
     def get_access_token(self, app_secret_key, secret_code, redirect_uri):
-        
+
         if redirect_uri is None:
             redirect_uri = self.DEFAULT_REDIRECT_URI
-        
+
         self.secret_key = app_secret_key
-        
+
         url_path = self._get_url_path({
             "client_id": self.app_id,
             "client_secret" : app_secret_key,
@@ -124,23 +124,23 @@ class FacebookClient(object):
             "code" : secret_code,
         })
         url = "%s%s" % (self.BASE_TOKEN_URL, url_path)
-        
+
         data = self._make_request(url)
-        
+
         if not "access_token" in data:
             ex = self.factory.make_object('Error', data)
             raise PyfbException(ex.error.message)
-        
+
         data = dict(parse_qsl(data))
         self.access_token = data.get('access_token')
         self.expires = data.get('expires')
         return self.access_token
-        
+
     def get_dialog_url(self, redirect_uri):
-        
+
         if redirect_uri is None:
             redirect_uri = self.DEFAULT_DIALOG_URI
-            
+
         url_path = self._get_url_path({
             "app_id" : self.app_id,
             "redirect_uri": redirect_uri,
@@ -154,10 +154,10 @@ class FacebookClient(object):
         """
         data = self._make_auth_request(path)
         obj = self._make_object(object_name, data)
-        
+
         if hasattr(obj, 'error'):
             raise PyfbException(obj.error.message)
-            
+
         return obj
 
     def get_list(self, id, path, object_name=None):
@@ -170,7 +170,7 @@ class FacebookClient(object):
             object_name = path
         path = "%s/%s" % (id, path.lower())
         return self.get_one(path, object_name).__dict__[object_name]
-        
+
     def push(self, id, path, **data):
         """
             Pushes data to facebook
@@ -179,14 +179,14 @@ class FacebookClient(object):
             id = "me"
         path = "%s/%s" % (id, path)
         self._make_auth_request(path, **data)
-        
+
     def delete(self, id):
         """
             Deletes a object by id
         """
         data = {"method": "delete"}
         self._make_auth_request(id, **data)
-        
+
     def _get_table_name(self, query):
         """
             Try to get the table name from a fql query
@@ -198,7 +198,7 @@ class FacebookClient(object):
             return table
         except Exception, e:
             raise PyfbException("Invalid FQL Sintax")
-    
+
     def execute_fql_query(self, query):
         """
             Executes a FBQL query and return a list of objects
@@ -208,7 +208,7 @@ class FacebookClient(object):
         url = "%s%s" % (self.FBQL_BASE_URL, url_path)
         data = self._make_request(url)
         return self.factory.make_objects_list(table, data)
-    
+
 
 class PyfbException(Exception):
     """

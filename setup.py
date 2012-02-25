@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 from setuptools import setup, find_packages
 
-__version__ = "0.3.1"
+__version__ = "0.3.2"
 
 setup(
     name='pyfb',
@@ -12,7 +12,7 @@ setup(
     author_email = "jmg.utn@gmail.com",
     license = "GPL v3",
     keywords = "Facebook Graph API Wrapper Python",
-    url='http://code.google.com/p/pyfb/',    
+    url='http://code.google.com/p/pyfb/',
     packages=['pyfb'],
     install_requires=[
         'simplejson',
