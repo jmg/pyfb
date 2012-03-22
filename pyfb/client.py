@@ -2,6 +2,7 @@
     The implementation of the Facebook Client
 """
 
+import urllib2
 import urllib
 import auth
 from urlparse import parse_qsl
@@ -42,9 +43,9 @@ class FacebookClient(object):
         """
         if not data:
             data = None
-        return urllib.urlopen(url, data).read()
+        return urllib2.urlopen(url, data).read()
 
-    def _make_auth_request(self, path, **data):
+    def _make_auth_request(self, path, params=None, **data):
         """
             Makes a request to the facebook Graph API.
             This method requires authentication!
@@ -53,13 +54,20 @@ class FacebookClient(object):
         if self.access_token is None:
             raise PyfbException("Must Be authenticated. Do you forgot to get the access token?")
 
-        token_url = "?access_token=%s" % self.access_token
-        url = "%s%s%s" % (self.GRAPH_URL, path, token_url)
+        if params is None:
+            params = {}
+        else:
+            for key, value in params.items():
+                if value is None:
+                    del params[key]
+        params["access_token"] = self.access_token
+
+        url = "%s%s?%s" % (self.GRAPH_URL, path, urllib.urlencode(params))
         if data:
             post_data = urllib.urlencode(data)
         else:
             post_data = None
-        return urllib.urlopen(url, post_data).read()
+        return urllib2.urlopen(url, post_data).read()
 
     def _make_object(self, name, data):
         """
@@ -148,11 +156,11 @@ class FacebookClient(object):
         url = "%s%s" % (self.DIALOG_BASE_URL, url_path)
         return url
 
-    def get_one(self, path, object_name):
+    def get_one(self, path, object_name, **params):
         """
             Gets one object
         """
-        data = self._make_auth_request(path)
+        data = self._make_auth_request(path, params)
         obj = self._make_object(object_name, data)
 
         if hasattr(obj, 'error'):
@@ -160,7 +168,7 @@ class FacebookClient(object):
 
         return obj
 
-    def get_list(self, id, path, object_name=None):
+    def get_list(self, id, path, object_name=None, **params):
         """
             Gets A list of objects
         """
@@ -169,7 +177,7 @@ class FacebookClient(object):
         if object_name is None:
             object_name = path
         path = "%s/%s" % (id, path.lower())
-        return self.get_one(path, object_name).__dict__[object_name]
+        return self.get_one(path, object_name, **params).__dict__[object_name]
 
     def push(self, id, path, **data):
         """

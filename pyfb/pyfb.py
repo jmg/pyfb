@@ -80,25 +80,25 @@ class Pyfb(object):
         """
         self._client.permissions = permissions
 
-    def get_myself(self):
+    def get_myself(self, fields=None):
         """
             Gets myself data
         """
-        return self._client.get_one("me", "FBUser")
+        return self._client.get_one("me", "FBUser", fields=fields)
 
-    def get_user_by_id(self, id=None):
+    def get_user_by_id(self, id=None, fields=None):
         """
             Gets an user by the id
         """
         if id is None:
             id = "me"
-        return self._client.get_one(id, "FBUser")
+        return self._client.get_one(id, "FBUser", fields=fields)
 
-    def get_friends(self, id=None):
+    def get_friends(self, id=None, fields=None):
         """
             Gets a list with your friends
         """
-        return self._client.get_list(id, "Friends")
+        return self._client.get_list(id, "Friends", fields=fields)
 
     def get_statuses(self, id=None):
         """
