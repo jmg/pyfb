@@ -51,7 +51,7 @@ class FacebookClient(object):
             Don't forgot to get the access token before use it.
         """
         if self.access_token is None:
-            raise PyfbException("Must Be authenticated. Do you forgot to get the access token?")
+            raise PyfbException("Must Be authenticated. Did you forget to get the access token?")
 
         token_url = "?access_token=%s" % self.access_token
         url = "%s%s%s" % (self.GRAPH_URL, path, token_url)
