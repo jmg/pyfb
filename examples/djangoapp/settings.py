@@ -1,4 +1,5 @@
 # Django settings for djangoapp project.
+import os
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
@@ -103,15 +104,16 @@ MIDDLEWARE_CLASSES = (
 ROOT_URLCONF = 'djangoapp.urls'
 
 # Facebook related Settings
-FACEBOOK_APP_ID = 'YOUR_APP_ID'
-FACEBOOK_SECRET_KEY = 'YOUR_APP_SECRET_CODE'
-FACEBOOK_REDIRECT_URL = 'http://www.YOUR_DOMAIN.com/facebook_login_success'
+FACEBOOK_APP_ID = '178358228892649'
+FACEBOOK_SECRET_KEY = 'cc2fbfac64784491fd84fc275b700496'
+FACEBOOK_REDIRECT_URL = 'http://localhost:8000/facebook_login_success'
 
 
 TEMPLATE_DIRS = (
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
+    os.path.join(os.getcwd(), "templates")
 )
 
 INSTALLED_APPS = (
