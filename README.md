@@ -32,19 +32,19 @@ token = raw_input("Enter the access_token\n")
 #Sets the authentication token
 facebook.set_access_token(token)
 
-#Gets info about myself 
+#Gets info about myself
 me = facebook.get_myself()
 
 print "-" * 40
 print "Name: %s" % me.name
 print "From: %s" % me.hometown.name
-print 
+print
 
 print "Speaks:"
 for language in me.languages:
     print "- %s" % language.name
-    
-print     
+
+print
 print "Worked at:"
 for work in me.work:
     print "- %s" % work.employer.name
@@ -92,7 +92,7 @@ def facebook_login(request):
 #This view must be refered in your FACEBOOK_REDIRECT_URL. For example: http://www.mywebsite.com/facebook_login_success/
 def facebook_login_success(request):
 
-    code = request.GET.get('code')    
+    code = request.GET.get('code')
 
     facebook = Pyfb(FACEBOOK_APP_ID)
     facebook.get_access_token(FACEBOOK_SECRET_KEY, code, redirect_uri=FACEBOOK_REDIRECT_URL)
@@ -113,5 +113,105 @@ urlpatterns = patterns('',
     (r'^facebook_login/$', 'djangoapp.django_pyfb.views.facebook_login'),
     (r'^facebook_login_success/$', 'djangoapp.django_pyfb.views.facebook_login_success'),
 )
+
+```
+
+
+## Integration with JS SDK
+
+-----------------------------------------------------------------
+
+You might user the JS SDK for login without a redirection to facebook (just open a popup) and Pyfb for backend api calls.
+
+### index.html
+
+```html
+
+<html>
+    <head>
+
+    </head>
+    <div id="fb-root"></div>
+    <script>
+
+        function isConnected(response) {
+            return response.status == 'connected';
+        }
+
+        function getLoginStatus(FB) {
+
+            FB.getLoginStatus(function(response) {
+
+                if (isConnected(response)) {
+                    onLogin(response);
+                }
+                else {
+                    FB.login(onLogin);
+                }
+            });
+        }
+
+        function onLogin(response) {
+
+            if (isConnected(response)) {
+                location.href = '/facebook_javascript_login_sucess?access_token=' + response.authResponse.accessToken;
+            }
+        }
+
+        window.fbAsyncInit = function() {
+
+            FB.init({
+                appId      : '{{FACEBOOK_APP_ID}}',
+                channelUrl : 'http://localhost:8000/media/channel.html',
+                status     : true,
+                cookie     : true,
+                xfbml      : true,
+                oauth      : true,
+            });
+
+        };
+
+        (function(d){
+             var js, id = 'facebook-jssdk'; if (d.getElementById(id)) {return;}
+             js = d.createElement('script'); js.id = id; js.async = true;
+             js.src = "http://connect.facebook.net/en_US/all.js";
+             d.getElementsByTagName('head')[0].appendChild(js);
+        }(document));
+
+    </script>
+
+    <body>
+        <button onclick="location.href='/facebook_login'">Facebook Python Login</button><br/><br/>
+        <button onclick="getLoginStatus(FB)">Facebook Javascript Login</button>
+    </body>
+</html>
+
+```
+
+### views.py
+
+```python
+
+(...)
+#Login with the js sdk and backend queries with pyfb
+def facebook_javascript_login_sucess(request):
+
+    access_token = request.GET.get("access_token")
+
+    facebook = Pyfb(FACEBOOK_APP_ID)
+    facebook.set_access_token(access_token)
+
+    return _render_user(facebook)
+
+(...)
+```
+
+### urls.py
+
+```python
+
+(...)
+(r'^facebook_javascript_login_sucess/$', 'djangoapp.django_pyfb.views.facebook_javascript_login_sucess'),
+(...)
 
 ```
