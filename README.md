@@ -121,7 +121,7 @@ urlpatterns = patterns('',
 
 -----------------------------------------------------------------
 
-You might user the JS SDK for login without a redirection to facebook (just open a popup) and Pyfb for backend api calls.
+You might use the JS SDK for login without a redirection to facebook (just open a popup) and Pyfb for backend api calls.
 
 ### index.html
 
