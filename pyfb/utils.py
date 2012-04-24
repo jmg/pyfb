@@ -4,6 +4,8 @@
     This file provides utilities to the pyfb library
 """
 
+import simplejson
+
 class NamedObject(object):
     """
         Builds an object of a runtime generated class with a name
@@ -32,6 +34,8 @@ class Json2ObjectsFactory(object):
         return obj
 
     def make_object(self, name, obj):
+        obj = simplejson.loads(obj)
+
         if isinstance(obj, dict):
             return self._make_object_dict(name, obj)
         elif isinstance(obj, list):
