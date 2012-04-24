@@ -30,15 +30,18 @@ class Json2ObjectsFactory(object):
         #Life's easy. For Python Programmers BTW ;-).
         obj = NamedObject(name)
         for key, value in dic.iteritems():
-            setattr(obj, key, self._make_object(name, obj))
+            setattr(obj, key, self._make_object(name, value))
         return obj
 
-    def make_object(self, name, obj):
-        obj = simplejson.loads(obj)
-
-        if isinstance(obj, dict):
-            return self._make_object_dict(name, obj)
-        elif isinstance(obj, list):
-            return self._make_objects_list(name, obj)
+    def _make_object(self, name, value):
+        if isinstance(value, dict):
+            return self._make_object_dict(name, value)
+        elif isinstance(value, list):
+            return self._make_objects_list(name, value)
         else:
-            return obj
+            return value
+
+    def make_object(self, name, value):
+        value = simplejson.loads(value)
+
+        return self._make_object(name, value)
