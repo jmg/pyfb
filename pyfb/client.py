@@ -140,7 +140,7 @@ class FacebookClient(object):
             object_name = path
         path = "%s/%s" % (id, path.lower())
 
-        return self.get_one(path, object_name, **params).__dict__[object_name]
+        return self.get_one(path, object_name, **params)
 
     def push(self, id, path, **data):
         """
