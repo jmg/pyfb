@@ -34,7 +34,7 @@ class FacebookClient(object):
 
         self.session = requests.Session()
 
-    def _make_request(self, method="get", domain=API_DOMAIN, path=None, params=None, auth=True, **data):
+    def _make_request(self, method="get", domain=GRAPH_DOMAIN, path=None, params=None, auth=True, **data):
         """
             Makes a request to the facebook Graph API.
             This method requires authentication!
@@ -56,7 +56,7 @@ class FacebookClient(object):
         url = "https://%s/%s" % (domain, path)
 
         response = self.session.request(method, url, params, data)
-        if response.status_code < 200 or response > 299:
+        if response.status_code < 200 or response.status_code > 299:
             raise PyfbException("Got response %s" % response.status_code)
 
         return response.content
@@ -180,7 +180,7 @@ class FacebookClient(object):
         """
         table = self._get_table_name(query)
         params = {'query' : query, 'format' : 'json'}
-        data = self._make_request(path="method/fql.query", params=params)
+        data = self._make_request(domain=self.API_DOMAIN, path="method/fql.query", params=params)
         return self.factory.make_objects_list(table, data)
 
 class PyfbException(Exception):
