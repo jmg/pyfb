@@ -25,10 +25,9 @@ class FacebookClient(object):
      #A factory to make objects from a json
     factory = Json2ObjectsFactory()
 
-    def __init__(self, app_id, access_token=None, raw_data=None):
+    def __init__(self, app_id, access_token=None):
         self.app_id = app_id
         self.access_token = access_token
-        self.raw_data = raw_data
         self.permissions = self.DEFAULT_SCOPE
         self.expires = None
 
@@ -108,10 +107,9 @@ class FacebookClient(object):
 
         data = self._make_request(path="oauth/access_token", params=params, auth=False)
 
-        self.access_token = data.get('access_token')
-        if not self.access_token:
-            raise PyfbException(data.get("error"))
+        data = dict(parse_qsl(data))
 
+        self.access_token = data.get('access_token')
         self.expires = data.get('expires')
 
         return self.access_token
