@@ -56,7 +56,14 @@ class FacebookClient(object):
 
         response = self.session.request(method, url, params, data)
         if response.status_code < 200 or response.status_code > 299:
-            raise PyfbException("Got response %s: %s" % (response.status_code, response.content))
+            content = self.factory.make_object("Error", response.content)
+
+            if hasattr(content, "error"):
+                error = content.error
+
+                raise PyfbStatusException(error.type, error.code, error.error_subcode, error.message)
+            else:
+                raise PyfbException(response.content)
 
         return response.content
 
@@ -183,3 +190,11 @@ class FacebookClient(object):
 
 class PyfbException(Exception):
     pass
+
+class PyfbStatusException(Exception):
+
+    def __init__(self, type, code, subcode, message):
+        self.type = type
+        self.code = code
+        self.subcode = subcode
+        super(PyfbStatusException, self).__init__(message)
