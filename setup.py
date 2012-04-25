@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 from setuptools import setup, find_packages
 
-__version__ = "0.3.4"
+__version__ = "0.3.5"
 
 setup(
     name='pyfb',
@@ -16,5 +16,6 @@ setup(
     packages=['pyfb'],
     install_requires=[
         'simplejson',
+        "requests"
     ],
 )
