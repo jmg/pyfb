@@ -56,7 +56,7 @@ class FacebookClient(object):
 
         response = self.session.request(method, url, params, data)
         if response.status_code < 200 or response.status_code > 299:
-            raise PyfbException("Got response %s" % response.status_code)
+            raise PyfbException("Got response %s: %s" % (response.status_code, response.content))
 
         return response.content
 
