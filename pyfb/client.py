@@ -61,7 +61,7 @@ class FacebookClient(object):
             if hasattr(content, "error"):
                 error = content.error
 
-                raise PyfbStatusException(error.type, error.code, getattr(error, "error_subcode"), error.message)
+                raise PyfbStatusException(error.type, error.code, getattr(error, "error_subcode", None), error.message)
             else:
                 raise PyfbException(response.content)
 
