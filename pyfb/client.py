@@ -178,14 +178,14 @@ class FacebookClient(object):
         if id is None:
             id = "me"
         path = "%s/%s" % (id, path)
-        self._make_auth_request(path, **data)
+        return self._make_auth_request(path, **data)
 
     def delete(self, id):
         """
             Deletes a object by id
         """
         data = {"method": "delete"}
-        self._make_auth_request(id, **data)
+        return self._make_auth_request(id, **data)
 
     def _get_table_name(self, query):
         """
