@@ -118,17 +118,17 @@ class Pyfb(object):
         """
         return self._client.get_list(id, "Comments")
 
-    def publish(self, message, id=None):
+    def publish(self, message, id=None, **kwargs):
         """
             Publishes a message on the wall
         """
-        return self._client.push(id, "feed", message=message)
+        return self._client.push(id, "feed", message=message, **kwargs)
 
-    def comment(self, message, id=None):
+    def comment(self, message, id=None, **kwargs):
         """
             Publishes a message on the wall
         """
-        return self._client.push(id, "comments", message=message)
+        return self._client.push(id, "comments", message=message, **kwargs)
 
     def get_likes(self, id=None):
         """

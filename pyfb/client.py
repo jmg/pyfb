@@ -169,7 +169,8 @@ class FacebookClient(object):
         if object_name is None:
             object_name = path
         path = "%s/%s" % (id, path.lower())
-        return self.get_one(path, object_name).__dict__[object_name]
+        obj = self.get_one(path, object_name)
+        return getattr(obj, object_name, obj.get("data"))
 
     def push(self, id, path, **data):
         """
