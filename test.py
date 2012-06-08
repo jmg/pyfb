@@ -1,8 +1,6 @@
 import unittest
 from pyfb import Pyfb
-
-FACEBOOK_APP_ID = ''
-FACEBOOK_TOKEN = ''
+from testdata import *
 
 class pyfbTests(unittest.TestCase):
     
@@ -15,7 +13,7 @@ class pyfbTests(unittest.TestCase):
         self.assertEquals(type(self.me.name), type(unicode()))
     
     def test_get_friends(self):
-        self.assertEquals(type(self.me.name), type(list()))
+        self.assertEquals(type(self.me.get_friends()), type(list()))
     
 if __name__ == "__main__":
 
