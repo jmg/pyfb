@@ -14,6 +14,9 @@ class pyfbTests(unittest.TestCase):
 
     def test_get_friends(self):
         self.assertEquals(type(self.facebook.get_friends(self.me.id)), type(list()))
+    
+    def test_get_accounts(self):
+        self.assertEquals(type(self.facebook.get_accounts(self.me.id)), type(list()))
 
 if __name__ == "__main__":
 
