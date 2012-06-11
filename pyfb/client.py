@@ -170,7 +170,12 @@ class FacebookClient(object):
             object_name = path
         path = "%s/%s" % (id, path.lower())
         obj = self.get_one(path, object_name)
-        return getattr(obj, object_name, obj.get("data"))
+
+        obj_list = getattr(obj, object_name, False)
+        if not obj_list:
+            obj_list = obj.get("data")
+
+        return obj_list
 
     def push(self, id, path, **data):
         """
