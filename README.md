@@ -1,3 +1,8 @@
+![Pull Request #5] (https://pullstat.us/jmg/pyfb/pull/5) list accounts
+![Pull Request #3] (https://pullstat.us/jmg/pyfb/pull/3) initial working tests
+
+
+
 # Pyfb - A Python Interface to the facebook Graph API
 
 -------------------------------------------------------------------
