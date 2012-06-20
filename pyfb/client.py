@@ -216,12 +216,12 @@ class FacebookClient(object):
         url = "%s%s" % (self.FBQL_BASE_URL, url_path)
         data = self._make_request(url)
 
-        if "error" in str(data):
-            ex = self.factory.make_object('Error', data)
+        obj_raw = self.factory.loads(data)
+        if 'error_code' in obj_raw:
+            ex = self.factory._make_object('Error', obj_raw)
             raise PyfbException(ex.error_msg)
 
-        return self.factory.make_objects_list(table, data)
-
+        return self.factory._make_objects_list(table, obj_raw)
 
 class PyfbException(Exception):
     """
