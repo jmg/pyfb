@@ -5,9 +5,9 @@
 """
 
 try:
-    import json as simplejson
+    import json
 except ImportError:
-    import simplejson
+    import simplejson as json
 
 class NamedObject(object):
     """
@@ -27,14 +27,14 @@ class Json2ObjectsFactory(object):
     """
 
     def loads(self, data):
-        return simplejson.loads(data)
+        return json.loads(data)
 
     def make_object(self, name, data):
-        raw = simplejson.loads(data)
+        raw = json.loads(data)
         return self._make_object(name, raw)
 
     def make_objects_list(self, name, data):
-        raw = simplejson.loads(data)
+        raw = json.loads(data)
         return self._make_objects_list(name, raw)
 
     def _make_objects_list(self, name, values):
