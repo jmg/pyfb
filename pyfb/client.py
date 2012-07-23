@@ -149,6 +149,16 @@ class FacebookClient(object):
 
         return self.get_one(path, object_name, **params).data
 
+    def post(self, id, path, **data):
+        """
+            Posts data to facebook
+        """
+        if id is None:
+            id = "me"
+        path = "%s/%s" % (id, path)
+
+        self._make_request(method="post", path=path, **data)
+
     def push(self, id, path, **data):
         """
             Pushes data to facebook
