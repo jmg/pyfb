@@ -36,7 +36,7 @@ class FacebookClient(object):
         self.permissions = self.DEFAULT_SCOPE
         self.expires = None
 
-    def _make_request(self, url, **data):
+    def _make_request(self, url, data):
         """
             Makes a simple request. If not data is a GET else is a POST.
         """
@@ -59,7 +59,7 @@ class FacebookClient(object):
             post_data = urllib.urlencode(data)
         else:
             post_data = None
-        return urllib.urlopen(url, post_data).read()
+        return self._make_request(url, post_data)
 
     def _make_object(self, name, data):
         """
@@ -217,14 +217,6 @@ class FacebookClient(object):
         url = "%s%s" % (self.FBQL_BASE_URL, url_path)
         data = self._make_request(url)
 
-<<<<<<< Updated upstream
-        obj_raw = self.factory.loads(data)
-        if 'error_code' in obj_raw:
-            ex = self.factory._make_object('Error', obj_raw)
-            raise PyfbException(ex.error_msg)
-
-        return self.factory._make_objects_list(table, obj_raw)
-=======
         objs = self.factory.make_objects_list(table, data)
         
         if hasattr(objs, 'error'):
@@ -232,7 +224,6 @@ class FacebookClient(object):
 
         return objs
 
->>>>>>> Stashed changes
 
 class PyfbException(Exception):
     """
