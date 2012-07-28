@@ -20,7 +20,7 @@ photos = pyfb.get_photos()
 
 print "These are my photos:\n"
 for photo in photos:
-	print photo.picture
+    print photo.picture
 
 #Just call the method next to get the next page of photos!
 more_photos = photos.next()
