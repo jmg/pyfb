@@ -16,10 +16,12 @@ except IOError:
 	exit(1)
 
 
-class pyfbTests(unittest.TestCase):
+class PyfbTests(unittest.TestCase):
+
+    pyfb_args = {}
 
     def setUp(self):
-        self.pyfb = Pyfb(keys["FACEBOOK_APP_ID"])
+        self.pyfb = Pyfb(keys["FACEBOOK_APP_ID"], **self.pyfb_args)
         self.pyfb.set_access_token(keys["FACEBOOK_TOKEN"])
         self.me = self.pyfb.get_myself()
 
@@ -46,6 +48,27 @@ class pyfbTests(unittest.TestCase):
 
         self.assertEquals(len(photos), len(more_photos.previous()))
         self.assertEquals(photos.previous(), [])
+
+
+class PyfbTestRawDataTests(PyfbTests):
+
+    pyfb_args = {"raw_data": True }
+
+    def test_auth(self):
+        self.assertEquals(type(self.me["name"]), type(unicode()))
+
+    def test_get_friends(self):
+        friends = self.pyfb.get_friends(self.me["id"])
+        self.assertTrue(isinstance(friends, list))
+        for friend in friends:
+            self.assertTrue(isinstance(friend, dict))
+
+    def test_get_photos_paging(self):       
+        """
+            pagination is not supported by raw data since it returns a dictionary instead 
+            of an object.
+        """
+        pass
 
 
 if __name__ == "__main__":
