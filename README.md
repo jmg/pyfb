@@ -49,6 +49,8 @@ print "Worked at:"
 for work in me.work:
     print "- %s" % work.employer.name
 
+
+```
 print "-" * 40
 
 ```
@@ -73,17 +75,26 @@ pyfb.authenticate()
 token = raw_input("Enter the access_token\n")
 
 #Sets the authentication token
-facebook.set_access_token(token)
+pyfb.set_access_token(token)
 
 photos = pyfb.get_photos()
 
+print "These are my photos:\n"
 for photo in photos:
-    print photo
+    print photo.picture
 
+#Just call the method next to get the next page of photos!
 more_photos = photos.next()
+
+print "\nMore photos:\n"
+for photo in more_photos:
+    print photo.picture
+
 more_more_photos = more_photos.next()
 
-```
+print "\nDo you want more?:\n"
+for photo in more_more_photos:
+    print photo.picture
 
 ## Django Facebook Integration Using Pyfb
 
