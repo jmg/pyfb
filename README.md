@@ -53,7 +53,7 @@ print "-" * 40
 
 ```
 
-### Facebook paginated lists (*Included in version 0.4.0)
+### Facebook paginated lists (Included in version 0.4.0)
 
 ```python
 
@@ -81,7 +81,7 @@ print "These are my photos:\n"
 for photo in photos:
     print photo.picture
 
-#Just call the method next to get the next page of photos!
+#Just call the "next" method to get the next page of photos!
 more_photos = photos.next()
 
 print "\nMore photos:\n"
