@@ -48,7 +48,7 @@ class FacebookClient(object):
         """
             Makes a request to the facebook Graph API.
             This method requires authentication!
-            Don't forgot to get the access token before use it.
+            Don't forget to get the access token before use it.
         """
         if self.access_token is None:
             raise PyfbException("Must Be authenticated. Did you forget to get the access token?")
@@ -169,9 +169,10 @@ class FacebookClient(object):
         if object_name is None:
             object_name = path
         path = "%s/%s" % (id, path.lower())
+        
         obj = self.get_one(path, object_name)
+        obj_list = self.factory.make_paginated_list(obj, object_name)
 
-        obj_list = getattr(obj, object_name, False)
         if not obj_list:
             obj_list = obj.get("data")
 
@@ -216,12 +217,22 @@ class FacebookClient(object):
         url = "%s%s" % (self.FBQL_BASE_URL, url_path)
         data = self._make_request(url)
 
+<<<<<<< Updated upstream
         obj_raw = self.factory.loads(data)
         if 'error_code' in obj_raw:
             ex = self.factory._make_object('Error', obj_raw)
             raise PyfbException(ex.error_msg)
 
         return self.factory._make_objects_list(table, obj_raw)
+=======
+        objs = self.factory.make_objects_list(table, data)
+        
+        if hasattr(objs, 'error'):
+            raise PyfbException(objs.error.message)
+
+        return objs
+
+>>>>>>> Stashed changes
 
 class PyfbException(Exception):
     """
