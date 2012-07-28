@@ -49,8 +49,6 @@ print "Worked at:"
 for work in me.work:
     print "- %s" % work.employer.name
 
-
-```
 print "-" * 40
 
 ```
@@ -95,6 +93,8 @@ more_more_photos = more_photos.next()
 print "\nDo you want more?:\n"
 for photo in more_more_photos:
     print photo.picture
+
+```
 
 ## Django Facebook Integration Using Pyfb
 
