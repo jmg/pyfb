@@ -36,7 +36,7 @@ class FacebookClient(object):
         self.permissions = self.DEFAULT_SCOPE
         self.expires = None
 
-    def _make_request(self, url, data):
+    def _make_request(self, url, data=None):
         """
             Makes a simple request. If not data is a GET else is a POST.
         """
