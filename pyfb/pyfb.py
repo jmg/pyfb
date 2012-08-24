@@ -124,6 +124,12 @@ class Pyfb(object):
         """
         self._client.post(id, "feed", message=message, **kwargs)
 
+    def action(self, namespace, action_type_name, object_type_name, object_url, id=None, **kwargs):
+        """
+            Publishes a message on the wall
+        """
+        self._client.post(id, "%s:%s" % (namespace, action_type_name), **{object_type_name: object_url})
+
     def comment(self, message, id=None):
         """
             Publishes a message on the wall
