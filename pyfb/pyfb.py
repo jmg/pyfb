@@ -94,11 +94,11 @@ class Pyfb(object):
             id = "me"
         return self._client.get_one(id, "FBUser", fields=fields)
 
-    def get_friends(self, id=None, fields=None):
+    def get_friends(self, id=None, fields=None, limit=None, offset=None):
         """
             Gets a list with your friends
         """
-        return self._client.get_list(id, "Friends", fields=fields)
+        return self._client.get_list(id, "Friends", fields=fields, limit=limit, offset=offset)
 
     def get_statuses(self, id=None):
         """
