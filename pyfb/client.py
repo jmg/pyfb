@@ -136,6 +136,29 @@ class FacebookClient(object):
         self.expires = data.get('expires')
         return self.access_token
 
+    def exchange_token(self, app_secret_key, exchange_token):
+
+        self.secret_key = app_secret_key
+
+        url_path = self._get_url_path({
+            "grant_type": 'fb_exchange_token',
+            "client_id": self.app_id,
+            "client_secret" : app_secret_key,
+            "fb_exchange_token" : exchange_token,
+            })
+        url = "%s%s" % (self.BASE_TOKEN_URL, url_path)
+
+        data = self._make_request(url)
+
+        if not "access_token" in data:
+            ex = self.factory.make_object('Error', data)
+            raise PyfbException(ex.error.message)
+
+        data = dict(parse_qsl(data))
+        self.access_token = data.get('access_token')
+        self.expires = data.get('expires')
+        return self.access_token, self.expires
+
     def get_dialog_url(self, redirect_uri):
 
         if redirect_uri is None:
