@@ -47,6 +47,13 @@ class Pyfb(object):
         """
         return self._client.get_access_token(app_secret_key, secret_code, redirect_uri)
 
+    def exchange_token(self, app_secret_key, exchange_token):
+        """
+             Exchanges a short-lived access token (like those obtained from client-side JS api)
+             for a longer-lived access token
+        """
+        return self._client.exchange_token(app_secret_key, exchange_token)
+
     def show_dialog(self, redirect_uri=None):
         """
             Open your prefered web browser to make the authentication request
