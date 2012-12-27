@@ -100,7 +100,7 @@ class FacebookClient(object):
         }
         return self._get_auth_url(params, redirect_uri)
 
-    def get_auth_code_url(self, redirect_uri):
+    def get_auth_code_url(self, redirect_uri, state=None):
         """
             Returns the url to get a authentication code
         """
@@ -108,6 +108,10 @@ class FacebookClient(object):
             "client_id": self.app_id,
             "scope": self._get_permissions(),
         }
+
+        if state:
+            params['state'] = state
+
         return self._get_auth_url(params, redirect_uri)
 
     def get_access_token(self, app_secret_key, secret_code, redirect_uri):
