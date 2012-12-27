@@ -35,11 +35,11 @@ class Pyfb(object):
         """
         return self._client.get_auth_token_url(redirect_uri)
 
-    def get_auth_code_url(self, redirect_uri=None):
+    def get_auth_code_url(self, redirect_uri=None, state=None):
         """
             Returns the url to get a authentication code
         """
-        return self._client.get_auth_code_url(redirect_uri)
+        return self._client.get_auth_code_url(redirect_uri, state=state)
 
     def get_access_token(self, app_secret_key, secret_code, redirect_uri=None):
         """
