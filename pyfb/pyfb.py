@@ -143,6 +143,12 @@ class Pyfb(object):
         """
         return self._client.get_list(id, "likes")
 
+    def get_pages(self, id=None):
+        """
+            Get a list of liked objects
+        """
+        return self._client.get_list(id, 'accounts', 'FBPage')
+
     def like(self, id):
         """
             LIKE: It Doesn't work. Seems to be a bug on the Graph API
