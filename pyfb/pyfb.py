@@ -13,9 +13,9 @@ class Pyfb(object):
         This class is Facade for FacebookClient
     """
 
-    def __init__(self, app_id, access_token=None):
+    def __init__(self, app_id, access_token=None, timeout=30):
 
-        self._client = FacebookClient(app_id, access_token)
+        self._client = FacebookClient(app_id, access_token, timeout=timeout)
 
     def authenticate(self):
         """

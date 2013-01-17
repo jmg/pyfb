@@ -25,13 +25,13 @@ class FacebookClient(object):
      #A factory to make objects from a json
     factory = Json2ObjectsFactory()
 
-    def __init__(self, app_id, access_token=None):
+    def __init__(self, app_id, access_token=None, timeout=30):
         self.app_id = app_id
         self.access_token = access_token
         self.permissions = self.DEFAULT_SCOPE
         self.expires = None
 
-        self.session = requests.Session()
+        self.session = requests.Session(timeout=timeout)
 
     def _make_request(self, method="get", domain=GRAPH_DOMAIN, path=None, params=None, auth=True, **data):
         """
