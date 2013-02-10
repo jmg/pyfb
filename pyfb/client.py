@@ -129,6 +129,25 @@ class FacebookClient(object):
 
         return self._build_url(self.FACEBOOK_DOMAIN, "dialog/feed", params)
 
+    def get_picture_url(self, id, ssl=False, auth=False, size=None):
+        params = {}
+        if ssl:
+            params["return_ssl_resources"] = "1"
+        if auth:
+            params["access_token"] = self.access_token
+        if size is not None:
+            if isinstance(size, basestring):
+                params["type"] = size
+            else:
+                if isinstance(size, (int, long)):
+                    width = height = size
+                else:
+                     width, height = map(int, size)
+                params["width"] = str(width)
+                params["height"] = str(height)
+
+        return self._build_url(self.GRAPH_DOMAIN, "%s/picture" % id, params)
+
     def get_one(self, path, object_name, **params):
         """
             Gets one object
