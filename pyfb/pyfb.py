@@ -66,6 +66,18 @@ class Pyfb(object):
         """
         webbrowser.open(url)
 
+    def get_picture_url(self, id, ssl=False, auth=False, size=None):
+        """Returns the url of a profile picture.
+
+        :param ssl: True if the picture needs to be returned over a secure connection.
+        :param auth: True if authentication is required.
+        :param size: Can be:
+            - a predefined string ("square", "small", "normal", "large")
+            - or a (width, height) tuple
+            - or a single integer for square picture (width == height)
+        """
+        return self._client.get_picture_url(id, ssl=ssl, auth=auth, size=size)
+
     def set_access_token(self, token):
         """
             Sets the access token. Necessary to make the requests that requires autenthication
