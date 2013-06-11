@@ -74,7 +74,7 @@ class Json2ObjectsFactory(object):
     def make_paginated_list(self, obj, object_name):
 
         objs = getattr(obj, object_name, False)
-        if not objs:
+        if objs == False:
             return False
 
         objs_list = PaginatedList(objs, obj, object_name)

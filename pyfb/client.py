@@ -200,7 +200,7 @@ class FacebookClient(object):
         obj = self.get_one(path, object_name)
         obj_list = self.factory.make_paginated_list(obj, object_name)
 
-        if not obj_list:
+        if obj_list == False:
             obj_list = obj.get("data")
 
         return obj_list
