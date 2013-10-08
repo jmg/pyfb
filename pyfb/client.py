@@ -22,7 +22,7 @@ class FacebookClient(object):
     DEFAULT_SCOPE = auth.ALL_PERMISSIONS
     DEFAULT_DIALOG_URI = "http://www.example.com/response/"
 
-     #A factory to make objects from a json
+     # A factory to make objects from a json
     factory = Json2ObjectsFactory()
 
     def __init__(self, app_id, access_token=None, timeout=30):
@@ -31,7 +31,8 @@ class FacebookClient(object):
         self.permissions = self.DEFAULT_SCOPE
         self.expires = None
 
-        self.session = requests.Session(timeout=timeout)
+        self.session = requests.Session()
+        self.session.timeout = timeout
 
     def _make_request(self, method="get", domain=GRAPH_DOMAIN, path=None, params=None, auth=True, **data):
         """
