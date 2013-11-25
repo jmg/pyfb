@@ -22,18 +22,23 @@ class FacebookClient(object):
     BASE_TOKEN_URL = "%soauth/access_token?" % GRAPH_URL
 
     DEFAULT_REDIRECT_URI = "http://www.facebook.com/connect/login_success.html"
-    DEFAULT_SCOPE = auth.ALL_PERMISSIONS
+    DEFAULT_SCOPE = [auth.USER_ABOUT_ME]
     DEFAULT_DIALOG_URI = "http://www.example.com/response/"
 
      #A factory to make objects from a json
     factory = Json2ObjectsFactory()
 
-    def __init__(self, app_id, access_token=None, raw_data=None):
+    def __init__(self, app_id, access_token=None, raw_data=False, permissions=None):
 
         self.app_id = app_id
         self.access_token = access_token
         self.raw_data = raw_data
-        self.permissions = self.DEFAULT_SCOPE
+
+        if permissions is None:
+            self.permissions = self.DEFAULT_SCOPE
+        else:
+            self.permissions = permissions
+
         self.expires = None
 
     def _make_request(self, url, data=None):
