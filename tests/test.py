@@ -7,8 +7,7 @@ except ImportError:
 from pyfb import Pyfb
 
 try:
-	with open("test_data.json") as f:
-		keys = json.loads(f.read())
+	from test_data import config
 except IOError:
 	print "\nERROR! You must have a test_data.json file providing the facebook app id and the access token."
 	print "\nExample:"
@@ -21,8 +20,8 @@ class PyfbTests(unittest.TestCase):
     pyfb_args = {}
 
     def setUp(self):
-        self.pyfb = Pyfb(keys["FACEBOOK_APP_ID"], **self.pyfb_args)
-        self.pyfb.set_access_token(keys["FACEBOOK_TOKEN"])
+        self.pyfb = Pyfb(config["FACEBOOK_APP_ID"], **self.pyfb_args)
+        self.pyfb.set_access_token(config["FACEBOOK_TOKEN"])
         self.me = self.pyfb.get_myself()
 
     def test_auth(self):
