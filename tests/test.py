@@ -7,11 +7,11 @@ except ImportError:
 from pyfb import Pyfb
 
 try:
-	from test_data import config
-except IOError:
-	print "\nERROR! You must have a test_data.json file providing the facebook app id and the access token."
+    from test_data import config
+except:
+	print "\nERROR! You must have a test_data.py file providing the facebook app id and the access token."
 	print "\nExample:"
-	print '\t{\n\t\t"FACEBOOK_APP_ID": "your_app_id"\n\t\t"FACEBOOK_TOKEN": "your_token"\n\t}\n'
+	print '\tconfig = {\n\t\t"FACEBOOK_APP_ID": "your_app_id"\n\t\t"FACEBOOK_TOKEN": "your_token"\n\t}\n'
 	exit(1)
 
 
