@@ -238,7 +238,7 @@ class FacebookClient(object):
             table = query[index:].strip().split(" ")[0]
             return table
         except Exception, e:
-            raise PyfbException("Invalid FQL Sintax")
+            raise PyfbException("Invalid FQL Syntax")
 
     def execute_fql_query(self, query):
         """
