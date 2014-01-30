@@ -1,25 +1,12 @@
-<span class="gittip-0001" gittip-username="jmg">
-</span>
-<script id="gittip-0001"
-  src="https://www.gittip.com/assets/widgets/0001.js">
-</script>
-
-
 # Pyfb - A Python Interface to the facebook Graph API
-
--------------------------------------------------------------------
 
 ### This is an Easy to Use Python Interface to the Facebook Graph API
 
 It gives you methods to access your data on facebook and
 provides objects instead of json dictionaries!
 
--------------------------------------------------------------------
-
 
 ## Django Facebook Integration Using Pyfb
-
------------------------------------------------------------------
 
 It's easy to integrate pyfb with Django. Just see the following example:
 
@@ -83,9 +70,7 @@ urlpatterns = patterns('',
 
 ## Integration with JS SDK
 
------------------------------------------------------------------
-
-You might use the JS SDK for login without a redirection to facebook (just open a popup) and Pyfb for backend api calls.
+You can also use the JS SDK for the facebook login (without making a redirection to facebook, just by opening a popup login window) and Pyfb for backend api calls. Here is how to do it:
 
 ### index.html
 
