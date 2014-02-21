@@ -18,7 +18,7 @@ class FacebookClient(object):
 
     BASE_AUTH_URL = "%soauth/authorize?" % GRAPH_URL
     DIALOG_BASE_URL = "%sdialog/feed?" % FACEBOOK_URL
-    FBQL_BASE_URL = "%smethod/fql.query?" % API_URL
+    FBQL_BASE_URL = "%sfql?" % GRAPH_URL
     BASE_TOKEN_URL = "%soauth/access_token?" % GRAPH_URL
 
     DEFAULT_REDIRECT_URI = "http://www.facebook.com/connect/login_success.html"
@@ -245,7 +245,7 @@ class FacebookClient(object):
             Executes a FBQL query and return a list of objects
         """
         table = self._get_table_name(query)
-        url_path = self._get_url_path({'query' : query, 'access_token' : self.access_token, 'format' : 'json'})
+        url_path = self._get_url_path({'q' : query, 'access_token' : self.access_token, 'format' : 'json'})
         url = "%s%s" % (self.FBQL_BASE_URL, url_path)
         data = self._make_request(url)
 
