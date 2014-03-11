@@ -1,4 +1,8 @@
 *.pyc
+*.bak
+env
+py3env
+
 dist
 build
 *egg-info
