@@ -1,15 +1,14 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 from setuptools import setup, find_packages
-from pyfb import __author__, __version__, __license__
 
 setup(
     name='pyfb',
-    version=__version__,
+    version="0.4.2",
     description='A Python Interface to the Facebook Graph API',
-    author=__author__,
+    author="Juan Manuel Garcia",
     author_email = "jmg.utn@gmail.com",
-    license = __license__,
+    license = "GPL v3",
     keywords = "Facebook Graph API Wrapper Python",
     url='http://code.google.com/p/pyfb/',
     packages=['pyfb'],

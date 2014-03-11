@@ -39,7 +39,7 @@ USER_XMPP_LOGIN = "xmpp_login"
 USER_ADS_MANAGEMENT = "ads_management"
 
 vars = locals().copy()
-USER_ALL_PERMISSIONS = [value for key, value in vars.iteritems() if key.startswith("USER_")]
+USER_ALL_PERMISSIONS = [value for key, value in vars.items() if key.startswith("USER_")]
 
 #Friends related permissions
 
@@ -67,7 +67,7 @@ FRIENDS_WEBSITE = "friends_website"
 FRIENDS_WORK_HISTORY = "friends_work_history"
 
 vars = locals().copy()
-FRIENDS_ALL_PERMISSIONS = [value for key, value in vars.iteritems() if key.startswith("FRIENDS_")]
+FRIENDS_ALL_PERMISSIONS = [value for key, value in vars.items() if key.startswith("FRIENDS_")]
 
 #Write related permissions
 
@@ -80,14 +80,14 @@ WRITE_PUBLISH_CHECKINS = "publish_checkins"
 WRITE_MANAGE_FRIENDLISTS = "manage_friendlists"
 
 vars = locals().copy()
-WRITE_ALL_PERMISSIONS = [value for key, value in vars.iteritems() if key.startswith("WRITE_")]
+WRITE_ALL_PERMISSIONS = [value for key, value in vars.items() if key.startswith("WRITE_")]
 
 #Page related permissions
 
 PAGE_MANAGE_PAGES = "manage_pages"
 
 vars = locals().copy()
-PAGE_ALL_PERMISSIONS = [value for key, value in vars.iteritems() if key.startswith("PAGE_")]
+PAGE_ALL_PERMISSIONS = [value for key, value in vars.items() if key.startswith("PAGE_")]
 
 #All permisssions
 ALL_PERMISSIONS = USER_ALL_PERMISSIONS + FRIENDS_ALL_PERMISSIONS + WRITE_ALL_PERMISSIONS + PAGE_ALL_PERMISSIONS

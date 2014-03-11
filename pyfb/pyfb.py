@@ -6,7 +6,7 @@
 """
 
 import webbrowser
-from client import FacebookClient, PyfbException
+from .client import FacebookClient, PyfbException
 
 class Pyfb(object):
     """
@@ -148,7 +148,7 @@ class Pyfb(object):
             LIKE: It Doesn't work. Seems to be a bug on the Graph API
             http://bugs.developers.facebook.net/show_bug.cgi?id=10714
         """
-        print self.like.__doc__
+        print(self.like.__doc__)
         return self._client.push(id, "likes")
 
     def delete(self, id):

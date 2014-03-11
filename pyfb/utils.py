@@ -9,7 +9,7 @@ try:
 except ImportError:
     import simplejson
 
-import urllib2
+import urllib.request, urllib.error, urllib.parse
 
 
 class FacebookObject(object):
@@ -40,7 +40,7 @@ class PaginatedList(list):
             if not url:
                 return PaginatedList()
 
-            obj = factory.make_object(object_name, urllib2.urlopen(url).read())
+            obj = factory.make_object(object_name, urllib.request.urlopen(url).read())
             objs_list = factory.make_paginated_list(obj, object_name)
 
             if not objs_list:
@@ -92,7 +92,7 @@ class Json2ObjectsFactory(object):
     def _make_object(self, name, dic):
         #Life's easy. For Python Programmers BTW ;-).
         obj = FacebookObject(name)
-        for key, value in dic.iteritems():
+        for key, value in dic.items():
             if key == 'data':
                 key = obj.__name__
             if isinstance(value, list):

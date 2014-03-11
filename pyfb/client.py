@@ -2,10 +2,10 @@
     The implementation of the Facebook Client
 """
 
-import urllib
-import auth
-from urlparse import parse_qsl
-from utils import Json2ObjectsFactory
+import urllib.request, urllib.parse, urllib.error
+from . import auth
+from urllib.parse import parse_qsl
+from .utils import Json2ObjectsFactory
 
 class FacebookClient(object):
     """
@@ -47,7 +47,7 @@ class FacebookClient(object):
         """
         if not data:
             data = None
-        return urllib.urlopen(url, data).read()
+        return urllib.request.urlopen(url, data).read()
 
     def _make_auth_request(self, path, **data):
         """
@@ -61,7 +61,7 @@ class FacebookClient(object):
         token_url = "?access_token=%s" % self.access_token
         url = "%s%s%s" % (self.GRAPH_URL, path, token_url)
         if data:
-            post_data = urllib.urlencode(data)
+            post_data = urllib.parse.urlencode(data)
         else:
             post_data = None
         return self._make_request(url, post_data)
@@ -76,7 +76,7 @@ class FacebookClient(object):
 
     def _get_url_path(self, dic):
 
-        return urllib.urlencode(dic)
+        return urllib.parse.urlencode(dic)
 
     def _get_auth_url(self, params, redirect_uri):
         """
@@ -98,6 +98,7 @@ class FacebookClient(object):
         """
             Returns the authentication token url
         """
+        import ipdb; ipdb.set_trace()
         params = {
             "client_id": self.app_id,
             "type": "user_agent",
@@ -237,7 +238,7 @@ class FacebookClient(object):
             index = query.index(KEY) + len(KEY) + 1
             table = query[index:].strip().split(" ")[0]
             return table
-        except Exception, e:
+        except Exception as e:
             raise PyfbException("Invalid FQL Syntax")
 
     def execute_fql_query(self, query):
