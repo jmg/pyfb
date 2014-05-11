@@ -145,7 +145,7 @@ class Pyfb(object):
 
     def get_pages(self, id=None):
         """
-            Get a list of liked objects
+            Get a list of Facebook Pages user has access to
         """
         return self._client.get_list(id, 'accounts', 'FBPage')
 
