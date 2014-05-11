@@ -16,7 +16,7 @@ class FacebookClient(object):
     GRAPH_URL = "https://graph.facebook.com/"
     API_URL = "https://api.facebook.com/"
 
-    BASE_AUTH_URL = "%soauth/authorize?" % GRAPH_URL
+    BASE_AUTH_URL = "%sdialog/oauth?" % FACEBOOK_URL 
     DIALOG_BASE_URL = "%sdialog/feed?" % FACEBOOK_URL
     FBQL_BASE_URL = "%sfql?" % GRAPH_URL
     BASE_TOKEN_URL = "%soauth/access_token?" % GRAPH_URL
