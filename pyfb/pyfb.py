@@ -131,6 +131,12 @@ class Pyfb(object):
         """
         return self._client.push(id, "feed", message=message, **kwargs)
 
+    def publish_picture(self,message,id=None,**kwargs):
+        """
+            Publish picture
+        """
+        return self._client.push(id,"photos",message=message,**kwargs);
+
     def comment(self, message, id=None, **kwargs):
         """
             Publishes a message on the wall
