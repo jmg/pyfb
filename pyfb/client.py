@@ -1,11 +1,17 @@
 """
     The implementation of the Facebook Client
 """
+from __future__ import absolute_import
 
-import urllib
-import auth
-from urlparse import parse_qsl
-from utils import Json2ObjectsFactory
+try:
+    from urllib import urlencode, urlopen
+    from urlparse import parse_qsl
+except ImportError as e:
+    from urllib.parse import urlencode, parse_qsl
+    from urllib.request import urlopen
+
+from . import auth
+from .utils import Json2ObjectsFactory
 
 class FacebookClient(object):
     """
@@ -16,7 +22,7 @@ class FacebookClient(object):
     GRAPH_URL = "https://graph.facebook.com/"
     API_URL = "https://api.facebook.com/"
 
-    BASE_AUTH_URL = "%sdialog/oauth?" % FACEBOOK_URL 
+    BASE_AUTH_URL = "%sdialog/oauth?" % FACEBOOK_URL
     DIALOG_BASE_URL = "%sdialog/feed?" % FACEBOOK_URL
     FBQL_BASE_URL = "%sfql?" % GRAPH_URL
     BASE_TOKEN_URL = "%soauth/access_token?" % GRAPH_URL
@@ -201,7 +207,7 @@ class FacebookClient(object):
         if object_name is None:
             object_name = path
         path = "%s/%s" % (id, path.lower())
-        
+
         obj = self.get_one(path, object_name)
         obj_list = self.factory.make_paginated_list(obj, object_name)
 
@@ -237,7 +243,7 @@ class FacebookClient(object):
             index = query.index(KEY) + len(KEY) + 1
             table = query[index:].strip().split(" ")[0]
             return table
-        except Exception, e:
+        except Exception as e:
             raise PyfbException("Invalid FQL Syntax")
 
     def execute_fql_query(self, query):
@@ -250,7 +256,7 @@ class FacebookClient(object):
         data = self._make_request(url)
 
         objs = self.factory.make_objects_list(table, data)
-        
+
         if hasattr(objs, 'error'):
             raise PyfbException(objs.error.message)
 

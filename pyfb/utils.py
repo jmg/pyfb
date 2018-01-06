@@ -6,10 +6,10 @@
 
 try:
     import json as simplejson
+    from urllib2 import urlopen
 except ImportError:
     import simplejson
-
-import urllib2
+    from urllib.request import urlopen
 
 
 class FacebookObject(object):
