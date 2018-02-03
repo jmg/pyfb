@@ -8,7 +8,7 @@ try:
     import json as simplejson
     from urllib2 import urlopen
 except ImportError:
-    import simplejson
+    import json as simplejson
     from urllib.request import urlopen
 
 
