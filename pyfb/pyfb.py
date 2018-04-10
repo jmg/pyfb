@@ -87,11 +87,11 @@ class Pyfb(object):
         """
         self._client.permissions = permissions
 
-    def get_myself(self):
+    def get_myself(self, extra_params=None):
         """
             Gets myself data
         """
-        return self._client.get_one("me", "FBUser")
+        return self._client.get_one("me", "FBUser", extra_params=extra_params)
 
     def get_user_by_id(self, id=None):
         """

@@ -16,7 +16,7 @@ class FacebookClient(object):
     GRAPH_URL = "https://graph.facebook.com/"
     API_URL = "https://api.facebook.com/"
 
-    BASE_AUTH_URL = "%sdialog/oauth?" % FACEBOOK_URL 
+    BASE_AUTH_URL = "%sdialog/oauth?" % FACEBOOK_URL
     DIALOG_BASE_URL = "%sdialog/feed?" % FACEBOOK_URL
     FBQL_BASE_URL = "%sfql?" % GRAPH_URL
     BASE_TOKEN_URL = "%soauth/access_token?" % GRAPH_URL
@@ -49,7 +49,7 @@ class FacebookClient(object):
             data = None
         return urllib.urlopen(url, data).read()
 
-    def _make_auth_request(self, path, **data):
+    def _make_auth_request(self, path, extra_params=None, **data):
         """
             Makes a request to the facebook Graph API.
             This method requires authentication!
@@ -60,6 +60,9 @@ class FacebookClient(object):
 
         token_url = "?access_token=%s" % self.access_token
         url = "%s%s%s" % (self.GRAPH_URL, path, token_url)
+        if extra_params:
+            url = "%s&%s" % (url, extra_params)
+
         if data:
             post_data = urllib.urlencode(data)
         else:
@@ -180,11 +183,11 @@ class FacebookClient(object):
         url = "%s%s" % (self.DIALOG_BASE_URL, url_path)
         return url
 
-    def get_one(self, path, object_name):
+    def get_one(self, path, object_name, extra_params=None):
         """
             Gets one object
         """
-        data = self._make_auth_request(path)
+        data = self._make_auth_request(path, extra_params=extra_params)
         obj = self._make_object(object_name, data)
 
         if hasattr(obj, 'error'):
@@ -201,7 +204,7 @@ class FacebookClient(object):
         if object_name is None:
             object_name = path
         path = "%s/%s" % (id, path.lower())
-        
+
         obj = self.get_one(path, object_name)
         obj_list = self.factory.make_paginated_list(obj, object_name)
 
@@ -250,7 +253,7 @@ class FacebookClient(object):
         data = self._make_request(url)
 
         objs = self.factory.make_objects_list(table, data)
-        
+
         if hasattr(objs, 'error'):
             raise PyfbException(objs.error.message)
 
