@@ -7,6 +7,7 @@
 
 import webbrowser
 from client import FacebookClient, PyfbException
+import json
 
 class Pyfb(object):
     """
@@ -174,3 +175,10 @@ class Pyfb(object):
             Executes a FBQL query
         """
         return self._client.execute_fql_query(query)
+
+    def request(self, path, **data):
+        """
+            Executes a request to the api
+        """
+        response = self._client._make_auth_request(path, **data)
+        return json.loads(response)
