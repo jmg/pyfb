@@ -6,7 +6,7 @@ import urllib
 import auth
 from urlparse import parse_qsl
 from utils import Json2ObjectsFactory
-
+import json
 class FacebookClient(object):
     """
         This class implements the interface to the Facebook Graph API
@@ -144,12 +144,12 @@ class FacebookClient(object):
         url = "%s%s" % (self.BASE_TOKEN_URL, url_path)
 
         data = self._make_request(url)
-
+        data = json.loads(data)
         if not "access_token" in data:
             ex = self.factory.make_object('Error', data)
             raise PyfbException(ex.error.message)
 
-        data = dict(parse_qsl(data))
+        # data = dict(parse_qsl(data))
         self.access_token = data.get('access_token')
         self.expires = data.get('expires')
         return self.access_token
