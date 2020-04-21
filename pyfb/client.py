@@ -23,7 +23,7 @@ class FacebookClient(object):
     BASE_TOKEN_URL = "%soauth/access_token?" % GRAPH_URL
 
     DEFAULT_REDIRECT_URI = "http://www.facebook.com/connect/login_success.html"
-    DEFAULT_SCOPE = []
+    DEFAULT_SCOPE = ["email"]
     DEFAULT_DIALOG_URI = "http://www.example.com/response/"
 
      #A factory to make objects from a json
