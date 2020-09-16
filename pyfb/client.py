@@ -6,6 +6,7 @@ import urllib
 import auth
 from urlparse import parse_qsl
 from utils import Json2ObjectsFactory
+import json
 
 class FacebookClient(object):
     """
@@ -13,7 +14,7 @@ class FacebookClient(object):
     """
 
     FACEBOOK_URL = "https://www.facebook.com/"
-    GRAPH_URL = "https://graph.facebook.com/"
+    GRAPH_URL = "https://graph.facebook.com/v5.0/"
     API_URL = "https://api.facebook.com/"
 
     BASE_AUTH_URL = "%sdialog/oauth?" % FACEBOOK_URL
@@ -22,7 +23,7 @@ class FacebookClient(object):
     BASE_TOKEN_URL = "%soauth/access_token?" % GRAPH_URL
 
     DEFAULT_REDIRECT_URI = "http://www.facebook.com/connect/login_success.html"
-    DEFAULT_SCOPE = [auth.USER_ABOUT_ME]
+    DEFAULT_SCOPE = ["email"]
     DEFAULT_DIALOG_URI = "http://www.example.com/response/"
 
      #A factory to make objects from a json
@@ -149,7 +150,12 @@ class FacebookClient(object):
             ex = self.factory.make_object('Error', data)
             raise PyfbException(ex.error.message)
 
-        data = dict(parse_qsl(data))
+        try:
+            data = json.loads(data)
+        except:
+            #old facebook api didn't use json. Keep it just in case...
+            data = dict(parse_qsl(data))
+
         self.access_token = data.get('access_token')
         self.expires = data.get('expires')
         return self.access_token
@@ -172,7 +178,12 @@ class FacebookClient(object):
             ex = self.factory.make_object('Error', data)
             raise PyfbException(ex.error.message)
 
-        data = dict(parse_qsl(data))
+        try:
+            data = json.loads(data)
+        except:
+            #old facebook api didn't use json. Keep it just in case...
+            data = dict(parse_qsl(data))
+
         self.access_token = data.get('access_token')
         self.expires = data.get('expires')
         return self.access_token, self.expires
