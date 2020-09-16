@@ -141,7 +141,7 @@ class FacebookClient(object):
             "redirect_uri" : redirect_uri,
             "code" : secret_code,
         })
-        url = "%s%s" % (self.BASE_TOKEN_URL, url_path)
+        url = u"%s%s" % (self.BASE_TOKEN_URL, url_path)
 
         data = self._make_request(url)
 
