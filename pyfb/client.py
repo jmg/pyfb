@@ -56,7 +56,7 @@ class FacebookClient(object):
         if not data:
             data = None
 
-        return urlopen(url, data).read()
+        return urlopen(url, data.encode("utf-8")).read()
 
     def _make_auth_request(self, path, extra_params=None, **data):
         """
