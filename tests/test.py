@@ -1,4 +1,7 @@
+from __future__ import print_function
+import sys
 import unittest
+
 try:
 	import simplejson as json
 except ImportError:
@@ -6,14 +9,11 @@ except ImportError:
 
 from pyfb import Pyfb
 
-try:
-    from test_data import config
-except:
-	print "\nERROR! You must have a test_data.py file providing the facebook app id and the access token."
-	print "\nExample:"
-	print '\tconfig = {\n\t\t"FACEBOOK_APP_ID": "your_app_id"\n\t\t"FACEBOOK_TOKEN": "your_token"\n\t}\n'
-	exit(1)
-
+#get a token from https://developers.facebook.com/tools/explorer/
+config = {
+    "FACEBOOK_APP_ID": "<YOUR_APP_ID>",
+    "FACEBOOK_TOKEN": "<YOUR_ACCESS_TOKEN>",
+}
 
 class PyfbTests(unittest.TestCase):
 
@@ -25,19 +25,24 @@ class PyfbTests(unittest.TestCase):
         self.me = self.pyfb.get_myself()
 
     def test_auth(self):
-        self.assertEquals(type(self.me.name), type(unicode()))
+        if sys.version_info > (3, 0):
+            class_type = str
+        else:
+            class_type = unicode
+
+        self.assertEquals(type(self.me.name), class_type)
 
     def test_get_friends(self):
         self.assertTrue(isinstance(self.pyfb.get_friends(self.me.id), list))
 
-    def test_get_photos_paging(self):    	
+    def test_get_photos_paging(self):
         photos = self.pyfb.get_photos()
         more_photos = photos.next()
         more_more_photos = more_photos.next()
 
         if len(photos) < 25 and len(more_photos) > 0:
         	raise Exception()
-        
+
         if len(photos) == 25 and len(more_photos) < 25 and len(more_more_photos) > 0:
         	raise Exception()
 
@@ -54,7 +59,12 @@ class PyfbTestRawDataTests(PyfbTests):
     pyfb_args = {"raw_data": True }
 
     def test_auth(self):
-        self.assertEquals(type(self.me["name"]), type(unicode()))
+        if sys.version_info > (3, 0):
+            class_type = str
+        else:
+            class_type = unicode
+
+        self.assertEquals(type(self.me["name"]), class_type)
 
     def test_get_friends(self):
         friends = self.pyfb.get_friends(self.me["id"])
@@ -62,9 +72,9 @@ class PyfbTestRawDataTests(PyfbTests):
         for friend in friends:
             self.assertTrue(isinstance(friend, dict))
 
-    def test_get_photos_paging(self):       
+    def test_get_photos_paging(self):
         """
-            pagination is not supported by raw data since it returns a dictionary instead 
+            pagination is not supported by raw data since it returns a dictionary instead
             of an object.
         """
         pass

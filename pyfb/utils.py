@@ -9,7 +9,10 @@ try:
 except ImportError:
     import simplejson
 
-import urllib2
+try:
+    import urllib2
+except ImportError:
+    from urllib import request as urllib2
 
 
 class FacebookObject(object):
@@ -92,7 +95,7 @@ class Json2ObjectsFactory(object):
     def _make_object(self, name, dic):
         #Life's easy. For Python Programmers BTW ;-).
         obj = FacebookObject(name)
-        for key, value in dic.iteritems():
+        for key, value in dic.items():
             if key == 'data':
                 key = obj.__name__
             if isinstance(value, list):

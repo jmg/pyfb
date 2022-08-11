@@ -2,10 +2,17 @@
     The implementation of the Facebook Client
 """
 
-import urllib
-import auth
-from urlparse import parse_qsl
-from utils import Json2ObjectsFactory
+from . import auth
+from .utils import Json2ObjectsFactory
+try:
+    #python 3
+    from urllib.parse import parse_qsl, urlencode
+    from urllib.request import urlopen
+except:
+    #python 2
+    from urlparse import parse_qsl
+    from urllib import urlencode, urlopen
+
 import json
 
 class FacebookClient(object):
@@ -48,7 +55,8 @@ class FacebookClient(object):
         """
         if not data:
             data = None
-        return urllib.urlopen(url, data).read()
+
+        return urlopen(url, data).read()
 
     def _make_auth_request(self, path, extra_params=None, **data):
         """
@@ -71,9 +79,10 @@ class FacebookClient(object):
             url = "%s&%s" % (url, extra_params)
 
         if data:
-            post_data = urllib.urlencode(data)
+            post_data = urlencode(data)
         else:
             post_data = None
+
         return self._make_request(url, post_data)
 
     def _make_object(self, name, data):
@@ -86,7 +95,7 @@ class FacebookClient(object):
 
     def _get_url_path(self, dic):
 
-        return urllib.urlencode(dic)
+        return urlencode(dic)
 
     def _get_auth_url(self, params, redirect_uri):
         """
@@ -146,15 +155,15 @@ class FacebookClient(object):
 
         data = self._make_request(url)
 
-        if not "access_token" in data:
-            ex = self.factory.make_object('Error', data)
-            raise PyfbException(ex.error.message)
-
         try:
             data = json.loads(data)
         except:
             #old facebook api didn't use json. Keep it just in case...
             data = dict(parse_qsl(data))
+
+        if not "access_token" in data:
+            ex = self.factory.make_object('Error', data)
+            raise PyfbException(ex.error.message)
 
         self.access_token = data.get('access_token')
         self.expires = data.get('expires')
@@ -257,7 +266,7 @@ class FacebookClient(object):
             index = query.index(KEY) + len(KEY) + 1
             table = query[index:].strip().split(" ")[0]
             return table
-        except Exception, e:
+        except Exception as e:
             raise PyfbException("Invalid FQL Syntax")
 
     def execute_fql_query(self, query):
