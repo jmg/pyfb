@@ -40,7 +40,7 @@ def facebook_login(request):
     facebook = Pyfb(FACEBOOK_APP_ID)
     return HttpResponseRedirect(facebook.get_auth_code_url(redirect_uri=FACEBOOK_REDIRECT_URL))
 
-#This view must be refered in your FACEBOOK_REDIRECT_URL. For example: http://www.mywebsite.com/facebook_login_success/
+#This view must be referred in your FACEBOOK_REDIRECT_URL. For example: http://www.mywebsite.com/facebook_login_success/
 def facebook_login_success(request):
 
     code = request.GET.get('code')
@@ -159,7 +159,7 @@ def facebook_login(request):
     return HttpResponseRedirect(facebook.get_auth_code_url(redirect_uri=FACEBOOK_REDIRECT_URL))
 
 
-#This view must be refered in your FACEBOOK_REDIRECT_URL. For example: http://www.mywebsite.com/facebook_login_success/
+#This view must be referred in your FACEBOOK_REDIRECT_URL. For example: http://www.mywebsite.com/facebook_login_success/
 def facebook_login_success(request):
 
     code = request.GET.get('code')
